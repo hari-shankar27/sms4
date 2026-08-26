@@ -1,0 +1,255 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+.modal{
+    background-color: #474e5d;
+    display: flex;
+     justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+      z-index: 1;
+     
+    width: 100%;
+    height: 100%;
+    
+   
+   
+}
+
+.close{
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 42px;
+    transition:  0.5s ease;
+    font-weight: bold;
+
+}
+.close:hover{
+color: blue;
+
+}
+.whole{
+   display: flex;
+    width: 100%;
+   align-items: center;
+    justify-content: center;
+}
+.container{
+    width: 520px;
+    background: white;
+   position: relative;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    margin: auto;
+    max-width: 90%;
+    max-height: 93vh;
+    overflow-y: auto;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none; 
+    
+}
+
+.container h1, p{
+    margin-bottom: 15px;
+}
+hr{
+    border: 1px solid #e0dada;
+   
+}
+
+/* label{
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+    color: #333;
+
+} */
+ .e, .f{
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    font-size: 13px;
+    margin-bottom: 7px;
+    font-weight: 700;
+    
+    color: rgb(75, 70, 70);
+ }
+
+ .role-box{
+    margin-top: 16px;
+ }
+.role-box label, .teacher-box label{
+   display: flex; align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 13px;
+    margin-bottom: 7px;
+    font-weight: 700;
+    
+    color: rgb(75, 70, 70); 
+}
+.role-box select {
+    width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 10px;
+    background: #f8fafc;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    color: #172033;
+    outline: none;
+    cursor: pointer;
+}
+
+.role-box select:focus {
+    border-color: #93c5fd;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+.rem{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 10px;
+}
+.rem input[type=checkbox]{
+   height: 15px;
+   width: 15px;
+}
+.rem span{
+ font-size: 10px;
+ color: grey;
+ font-weight: bold;
+}
+
+
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=password]{
+     width: 100%;
+    padding: 18px;
+    border-radius: 12px;
+    font-size: 10px;
+    background: #f8fafc;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    color: #cbd5e1
+   
+}
+input:focus{
+    border-color: #93c5fd;
+
+    background: white;
+outline: none;
+    box-shadow:
+        0 0 0 4px
+        rgba(
+            37,
+            99,
+            235,
+            0.08
+        );
+}
+select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    margin-bottom: 1px;
+    font-size: 16px;
+}
+
+select:focus{
+    background-color: whitesmoke;
+    outline: none;
+    box-shadow: 0 0 5px rgba(161,162,161,0.5);
+}
+
+
+.divider{
+    position: relative;
+    text-align: center;
+    margin: 4px 0;
+}
+.divider::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    top: 50%;
+     background: grey;
+}
+.divider span{
+    position: relative;
+    padding: 0 12px;
+    color: grey;
+
+    background: white;
+    font-size: 8px;
+    font-weight: 800;
+}
+.rt{
+    margin: 20px;
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+}
+.rt a{
+    text-decoration: none;
+    font-weight: 700;
+    color: blue;
+}
+.rt a:hover{
+    text-decoration: underline;
+}
+
+
+input[type=submit]:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 15px 28px rgba(37,99,235,0.30);
+}
+
+.btn{
+ width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px 0;
+    color: white;
+     background: linear-gradient(135deg, #2563eb, #4f46e5);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(18, 107, 99, 0.20);
+    transition: 0.3s ease;
+}
+.btn:hover{
+    transform: translateY(-2px);
+ box-shadow: 0 15px 28px rgba(37,99,235,0.30);
+}
+.btn i {
+    font-size: 13px;
+    transition: 0.3s ease;
+}
+
+.btn:hover i {
+    transform: translateX(4px);
+}
