@@ -2,17 +2,6 @@
 
 include "navbar.php";
 
-// Handle form submission (replace with a real DB insert later)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name'] ?? '');
-
-    if ($name !== '') {
-        // e.g. $pdo->prepare("INSERT INTO programs (name, created_at) VALUES (?, NOW())")->execute([$name]);
-    }
-
-    header("Location: create.php");
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
