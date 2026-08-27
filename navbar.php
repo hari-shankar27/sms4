@@ -29,13 +29,13 @@
  <ul class="home" id="homenav">
 
     <li>
-        <a href="index.html" class="active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="index.php" class="active"><i class="fa-solid fa-house"></i><span>Home</span></a>
     </li>
     <li>
         <a href="about.php"><i class="fa-solid fa-circle-info"></i><span>About</span></a>
     </li>
     <li>
-        <a href="Programs.php"><i class="fa-solid fa-graduation-cap"></i><span>Programs</span></a>
+        <a href="Programs/index.php"><i class="fa-solid fa-graduation-cap"></i><span>Programs</span></a>
     </li>
      <li>
         <a href="notices.php"><i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
