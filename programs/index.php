@@ -1,24 +1,4 @@
-<?php
-
-include "navbar.php";
-
-$programs = [
-    ["id" => 1, "name" => "Computer Science",  "created_at" => "2024-01-12"],
-    ["id" => 2, "name" => "Business Studies",  "created_at" => "2024-02-03"],
-    ["id" => 3, "name" => "Civil Engineering",  "created_at" => "2024-03-21"],
-    ["id" => 4, "name" => "Electronics",        "created_at" => "2024-04-15"],
-];
-
-// Handle delete request (replace with real DB delete later)
-if (isset($_GET['delete'])) {
-    $deleteId = (int) $_GET['delete'];
-    foreach ($programs as $key => $program) {
-        if ($program['id'] === $deleteId) {
-            unset($programs[$key]);
-        }
-    }
-    // e.g. $pdo->prepare("DELETE FROM programs WHERE id = ?")->execute([$deleteId]);
-}
+<?php include("navbar.php");
 ?>
 
 <!DOCTYPE html>
