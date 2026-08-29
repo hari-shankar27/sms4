@@ -6,10 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services - School Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         .services-wrapper {
-            padding: 30px 0 60px;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
         }
 
         /* Hero Section */
@@ -56,6 +61,16 @@
             margin: auto;
         }
 
+        /* Custom grid (replaces .row / .col-md-4) */
+        .grid-3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .grid-3 > div {
+            flex: 1 1 300px;
+        }
+
         /* Service Cards */
         .service-card {
             border: none;
@@ -97,6 +112,7 @@
             padding: 55px 40px;
             border-radius: 18px;
             margin-top: 60px;
+            text-align: center;
         }
 
         .benefits-section h2 {
@@ -111,6 +127,7 @@
             padding: 0;
             max-width: 600px;
             margin: auto;
+            text-align: left;
         }
 
         .benefit-list li {
@@ -153,7 +170,7 @@
 </head>
 <body>
 
-<div class="container services-wrapper">
+<div class="services-wrapper">
 
     <!-- Hero Section -->
     <div class="services-hero">
@@ -181,9 +198,9 @@
     </div>
 
 
-    <div class="row g-4">
+    <div class="grid-3">
 
-        <div class="col-md-4">
+        <div>
             <div class="service-card">
                 <div class="service-icon">🎓</div>
                 <h3>Student Records</h3>
@@ -194,7 +211,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div>
             <div class="service-card">
                 <div class="service-icon">🏢</div>
                 <h3>Department Management</h3>
@@ -205,7 +222,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div>
             <div class="service-card">
                 <div class="service-icon">📊</div>
                 <h3>Data Management</h3>
@@ -216,7 +233,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div>
             <div class="service-card">
                 <div class="service-icon">👨‍🏫</div>
                 <h3>Teacher Management</h3>
@@ -227,7 +244,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div>
             <div class="service-card">
                 <div class="service-icon">🔒</div>
                 <h3>Secure System</h3>
@@ -238,7 +255,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div>
             <div class="service-card">
                 <div class="service-icon">⚡</div>
                 <h3>Easy Management</h3>
@@ -253,11 +270,11 @@
 
 
     <!-- Benefits -->
-    <div class="benefits-section text-center">
+    <div class="benefits-section">
 
         <h2>Why Choose Our System?</h2>
 
-        <ul class="benefit-list text-start">
+        <ul class="benefit-list">
             <li>Faster student information management</li>
             <li>Easy CRUD operations for records</li>
             <li>Organized department and student data</li>
@@ -269,8 +286,6 @@
 
 </div>
 
-<!-- Bootstrap JS bundle (optional, needed only if you use Bootstrap components elsewhere) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php include 'footer.php'; ?>
 </body>
 </html>

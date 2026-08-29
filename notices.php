@@ -20,10 +20,15 @@ $categories = ["All", "Academic", "Exam", "Event", "Holiday"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notices - School Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         .notices-wrapper {
-            padding: 30px 0 60px;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
         }
 
         /* Hero Section */
@@ -208,7 +213,7 @@ $categories = ["All", "Academic", "Exam", "Event", "Holiday"];
 </head>
 <body>
 
-<div class="container notices-wrapper">
+<div class="notices-wrapper">
 
     <!-- Hero Section -->
     <div class="notices-hero">
@@ -285,10 +290,6 @@ $categories = ["All", "Academic", "Exam", "Event", "Holiday"];
 
 </div>
 <?php include"footer.php";?>
-
-<!-- Bootstrap JS bundle (optional, needed only if you use Bootstrap components elsewhere) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
     // Simple client-side category filter
     const buttons = document.querySelectorAll('.filter-btn');

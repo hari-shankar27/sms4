@@ -29,10 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - School Management System</title>
-
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        .contact-wrapper { padding: 30px 0 60px; }
+        .contact-wrapper {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
 
         .contact-hero {
             background: linear-gradient(135deg, #1d4ed8, #2563eb, #3b82f6);
@@ -50,6 +56,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .section-title h2 { color: #1d4ed8; font-size: 34px; font-weight: 700; margin-bottom: 12px; }
         .section-title p { color: #666; font-size: 17px; }
 
+        /* Custom grid (replaces .row / .col-md-*) */
+        .contact-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .contact-grid .col-info { flex: 1 1 380px; }
+        .contact-grid .col-form { flex: 2 1 480px; }
+
+        .grid-3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .grid-3 > div { flex: 1 1 280px; }
+
         .contact-card {
             background: white;
             padding: 35px;
@@ -57,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             height: 100%;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
             transition: 0.3s;
+            box-sizing: border-box;
         }
         .contact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
         .contact-card h3 { color: #1d4ed8; font-weight: 600; margin-bottom: 25px; }
@@ -65,9 +88,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .contact-icon { font-size: 25px; min-width: 35px; }
         .contact-item strong { display: block; color: #333; margin-bottom: 3px; }
 
-        .form-label { font-weight: 500; color: #444; margin-bottom: 8px; }
-        .form-control { padding: 12px 14px; border: 1px solid #d1d5db; border-radius: 7px; }
-        .form-control:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
+        /* Form */
+        .form-group { margin-bottom: 18px; }
+        .form-label { display: block; font-weight: 500; color: #444; margin-bottom: 8px; }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
 
         .btn-contact {
             background-color: #2563eb;
@@ -76,6 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: none;
             border-radius: 7px;
             font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
             transition: 0.3s;
         }
         .btn-contact:hover { background-color: #1d4ed8; color: white; transform: translateY(-2px); }
@@ -108,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<div class="container contact-wrapper">
+<div class="contact-wrapper">
 
     <!-- Hero Section -->
     <div class="contact-hero">
@@ -126,10 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>We are here to help with your questions, support requests, and system-related information.</p>
     </div>
 
-    <div class="row g-4">
+    <div class="contact-grid">
 
         <!-- Contact Information -->
-        <div class="col-md-5">
+        <div class="col-info">
             <div class="contact-card">
                 <h3>Contact Information</h3>
 
@@ -147,33 +187,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <!-- Message Form -->
-        <div class="col-md-7">
+        <div class="col-form">
             <div class="contact-card">
                 <h3>Send Us a Message</h3>
 
                 <form method="POST">
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label class="form-label">Your Name</label>
                         <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label class="form-label">Your Email</label>
                         <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label class="form-label">Subject</label>
                         <input type="text" name="subject" class="form-control" placeholder="Enter subject" required>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label class="form-label">Your Message</label>
                         <textarea name="message" class="form-control" rows="5" placeholder="Write your message here..." required></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-contact">Send Message</button>
+                    <button type="submit" class="btn-contact">Send Message</button>
 
                 </form>
             </div>
@@ -189,9 +229,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p>Our contact channels are available for different types of questions and assistance.</p>
         </div>
 
-        <div class="row g-4">
+        <div class="grid-3">
             <?php foreach ($support_items as $s): ?>
-                <div class="col-md-4">
+                <div>
                     <div class="support-box">
                         <div class="support-icon"><?= $s[0] ?></div>
                         <h4><?= $s[1] ?></h4>

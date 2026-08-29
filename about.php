@@ -22,11 +22,19 @@ $benefits = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - School Management System</title>
-
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        .about-wrapper { padding: 30px 0 60px; }
+        /* ---------- Layout wrapper (replaces Bootstrap .container) ---------- */
+        .about-wrapper {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
 
+        /* ---------- Hero ---------- */
         .about-hero {
             background: linear-gradient(135deg, #1d4ed8, #2563eb, #3b82f6);
             color: white;
@@ -39,14 +47,33 @@ $benefits = [
         .about-hero h1 { font-size: 40px; font-weight: 700; margin-bottom: 18px; }
         .about-hero p { font-size: 17px; max-width: 800px; margin: auto; line-height: 1.7; }
 
+        /* ---------- Section title ---------- */
         .overview { margin-bottom: 60px; }
-
         .section-title { text-align: center; margin-bottom: 40px; }
         .section-title h2 { font-size: 34px; color: #1d4ed8; font-weight: 700; margin-bottom: 12px; }
         .section-title p { color: #666; font-size: 17px; max-width: 750px; margin: auto; }
 
         .overview-text { font-size: 17px; color: #555; line-height: 1.9; }
 
+        /* ---------- Custom grid (replaces .row / .col-md-*) ---------- */
+        .grid-2 {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+        .grid-2 > div { flex: 1 1 320px; }
+
+        .grid-3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .grid-3 > div {
+            flex: 1 1 300px;
+        }
+
+        /* ---------- Cards ---------- */
         .feature-card {
             border: none;
             border-radius: 15px;
@@ -88,7 +115,7 @@ $benefits = [
 </head>
 <body>
 
-<div class="container about-wrapper">
+<div class="about-wrapper">
 
     <!-- Hero Section -->
     <div class="about-hero">
@@ -108,8 +135,8 @@ $benefits = [
             <p>Everything you need to manage academic information efficiently and securely.</p>
         </div>
 
-        <div class="row align-items-center g-5">
-            <div class="col-md-6">
+        <div class="grid-2">
+            <div>
                 <p class="overview-text">
                     The School Management System is developed to reduce
                     the complexity of traditional academic record management.
@@ -126,7 +153,7 @@ $benefits = [
                 </p>
             </div>
 
-            <div class="col-md-6">
+            <div>
                 <div class="feature-card">
                     <div class="feature-icon">🏫</div>
                     <h3>Centralized Academic Management</h3>
@@ -146,9 +173,9 @@ $benefits = [
         <p>Powerful features designed to make academic administration simple and organized.</p>
     </div>
 
-    <div class="row g-4">
+    <div class="grid-3">
         <?php foreach ($features as $f): ?>
-            <div class="col-md-4">
+            <div>
                 <div class="feature-card">
                     <div class="feature-icon"><?= $f[0] ?></div>
                     <h3><?= $f[1] ?></h3>
@@ -165,9 +192,9 @@ $benefits = [
             <p>Designed to improve productivity and simplify academic administration.</p>
         </div>
 
-        <div class="row g-4">
+        <div class="grid-3">
             <?php foreach ($benefits as $b): ?>
-                <div class="col-md-4">
+                <div>
                     <div class="benefit-box">
                         <h4><?= $b[0] ?></h4>
                         <p><?= $b[1] ?></p>
@@ -191,7 +218,6 @@ $benefits = [
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<?php include"footer.php";?>
+<?php include "footer.php"; ?>
 </body>
 </html>
