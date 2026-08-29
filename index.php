@@ -11,7 +11,6 @@
 <body>
 <?php include 'navbar.php' ?>
 
-</div>
 <section class="hero">
   <div class="hero-container">
 
@@ -61,7 +60,7 @@
 
 <div class="right">
      <div class="image">
-        <img src="image/image.png" class="m">
+        <img src="image/image.png" class="m" alt="Students at HariManage">
 
        <div class="success">
         <div class="i">
@@ -141,7 +140,7 @@
 
 </section>
 
+<?php include 'footer.php' ?>
+
 </body>
 </html>
-
-<?php include 'footer.php' ?>

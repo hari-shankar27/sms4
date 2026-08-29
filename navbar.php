@@ -18,7 +18,7 @@
     </div>
     <div class="sname">
         <div class="stitle">
-            SchoolManage
+            ManageSchool
         </div>
         <div class="subtitle">
             School Management System
@@ -26,6 +26,7 @@
     </div>
 
 </a>
+
  <ul class="home" id="homenav">
 
     <li>
@@ -35,7 +36,7 @@
         <a href="about.php"><i class="fa-solid fa-circle-info"></i><span>About</span></a>
     </li>
     <li>
-        <a href="Programs/index.php"><i class="fa-solid fa-graduation-cap"></i><span>Programs</span></a>
+        <a href="Programs.php"><i class="fa-solid fa-graduation-cap"></i><span>Programs</span></a>
     </li>
      <li>
         <a href="notices.php"><i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
@@ -55,13 +56,30 @@
 <!-- <a href="notices.html" class="notification"><i class="fa-regular fa-bell"></i></a> -->
 
 <a href="login.html" class="logbtn"><i class="fa-solid fa-right-to-bracket"></i><span>Login</span></a>
-<a href="register.html" class="regbtn"><i class="fa-solid fa-user-plus"></i><span>Register</span></a>
+<a href="register.html" class="regbtn"><i class="fa-solid fa-right-to-bracket"></i><span>Register</span></a>
 
     </div>
 
 </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const homenav = document.getElementById('homenav');
+    const navLinks = homenav.querySelectorAll('a');
+
+    // Highlight active link based on current page URL
+    const currentPage = window.location.pathname.split('/').pop() || 'index.php';
+    navLinks.forEach(function (link) {
+        const linkPage = link.getAttribute('href').split('/').pop();
+        if (linkPage === currentPage) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
