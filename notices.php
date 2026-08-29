@@ -21,9 +21,6 @@ $categories = ["All", "Academic", "Exam", "Event", "Holiday"];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notices - School Management System</title>
 
-    <!-- Bootstrap (used for .container, .row, .col-md-* grid classes) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         .notices-wrapper {
             padding: 30px 0 60px;
@@ -287,6 +284,7 @@ $categories = ["All", "Academic", "Exam", "Event", "Holiday"];
     </div>
 
 </div>
+<?php include"footer.php";?>
 
 <!-- Bootstrap JS bundle (optional, needed only if you use Bootstrap components elsewhere) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

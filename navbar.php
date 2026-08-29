@@ -56,7 +56,7 @@
 <!-- <a href="notices.html" class="notification"><i class="fa-regular fa-bell"></i></a> -->
 
 <a href="login.html" class="logbtn"><i class="fa-solid fa-right-to-bracket"></i><span>Login</span></a>
-<a href="register.html" class="regbtn"><i class="fa-solid fa-right-to-bracket"></i><span>Register</span></a>
+<a href="register.html" class="regbtn"><i class="fa-solid"></i><span>Register</span></a>
 
     </div>
 
