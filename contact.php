@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Hero Section -->
     <div class="contact-hero">
-        <h1>Contact Student Management System</h1>
+        <h1>Contact Us</h1>
         <p>
             Have a question, need assistance, or want to learn more about
             our Student Management System? Get in touch with us and our team

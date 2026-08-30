@@ -119,7 +119,7 @@ $benefits = [
 
     <!-- Hero Section -->
     <div class="about-hero">
-        <h1>About School Management System</h1>
+        <h1>About Us</h1>
         <p>
             A modern and efficient digital platform designed to simplify
             student, teacher, department, and academic record management.
