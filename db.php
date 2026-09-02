@@ -5,7 +5,6 @@ $conn = new mysqli('localhost', 'root', '', 'sms4_db');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 $host = "localhost";
 $username = "root";
 $password = "";
