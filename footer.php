@@ -267,13 +267,13 @@
 
             <div class="footer-bottom-links">
 
-                <a href="#">
+                <a href="privacy.php">
                     Privacy Policy
                 </a>
 
                 <span></span>
 
-                <a href="#">
+                <a href="terms.php">
                     Terms & Conditions
                 </a>
 

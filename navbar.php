@@ -1,3 +1,7 @@
+<?php
+$currentPage = basename($_SERVER['PHP_SELF']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,22 +33,22 @@
  <ul class="home" id="homenav">
 
     <li>
-        <a href="index.html" class="active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="index.php" class="<?= $currentPage == 'index.php' ? 'active' : '' ?>"><i class="fa-solid fa-house"></i><span>Home</span></a>
     </li>
     <li>
-        <a href="about.php"><i class="fa-solid fa-circle-info"></i><span>About</span></a>
+        <a href="about.php" class="<?= $currentPage == 'about.php' ? 'active' : '' ?>"><i class="fa-solid fa-circle-info"></i><span>About</span></a>
     </li>
     <li>
-        <a href="Programs.php"><i class="fa-solid fa-graduation-cap"></i><span>Programs</span></a>
+        <a href="Programs.php" class="<?= $currentPage == 'programs.php' ? 'active' : '' ?>"><i class="fa-solid fa-graduation-cap"></i><span>Programs</span></a>
     </li>
      <li>
-        <a href="notices.php"><i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
+        <a href="notices.php" class="<?= $currentPage == 'notices.php' ? 'active' : '' ?>"><i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
     </li>
       <li>
-        <a href="services.php"><i class="fa-solid fa-layer-group"></i><span>Services</span></a>
+        <a href="services.php" class="<?= $currentPage == 'services.php' ? 'active' : '' ?>"><i class="fa-solid fa-layer-group"></i><span>Services</span></a>
     </li>
     <li>
-        <a href="Contact.php"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
+        <a href="Contact.php" class="<?= $currentPage == 'contact.php' ? 'active' : '' ?>"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
     </li>
     
  </ul>
@@ -52,7 +56,7 @@
     <div class="rightnav">
 
         
-<!-- <a href="notices.html" class="notification"><i class="fa-regular fa-bell"></i></a> -->
+<a href="notices.html" class="notification"><i class="fa-regular fa-bell"></i></a>
 
 <a href="login.html" class="logbtn"><i class="fa-solid fa-right-to-bracket"></i><span>Login</span></a>
 <a href="register.html" class="regbtn"><i class="fa-solid fa-user-plus"></i><span>Register</span></a>
@@ -62,6 +66,7 @@
 </div>
 
 </div>
+<script src="script.js"></script>
 
 </body>
 </html>
