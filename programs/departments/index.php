@@ -1,6 +1,6 @@
 <?php
 // department.php (frontend only, no database)
-include("programnavbar.php");
+include("../programnavbar.php");
 
 $departments = [
     ['id' => 1, 'name' => 'Computer Science', 'created_at' => '2024-01-15'],

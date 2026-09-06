@@ -1,5 +1,4 @@
 <?php include 'navbar.php'; ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services - School Management System</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         .services-wrapper {
@@ -67,6 +64,7 @@
             flex-wrap: wrap;
             gap: 24px;
         }
+
         .grid-3 > div {
             flex: 1 1 300px;
         }
@@ -149,7 +147,6 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-
             .services-hero {
                 padding: 60px 25px;
             }
@@ -170,122 +167,111 @@
 </head>
 <body>
 
-<div class="services-wrapper">
+    <div class="services-wrapper">
 
-    <!-- Hero Section -->
-    <div class="services-hero">
+        <!-- Hero Section -->
+        <div class="services-hero">
+            <h1>Our Services</h1>
+            <p>
+                Student Management System provides smart and efficient solutions to
+                manage academic activities, student records, and institutional data.
+            </p>
+        </div>
 
-        <h1>Our Services</h1>
+        <!-- Section Title -->
+        <div class="section-title">
+            <h2>What We Offer</h2>
+            <p>
+                A complete set of tools built to simplify academic
+                administration from every angle.
+            </p>
+        </div>
 
-        <p>
-            Student Management System provides smart and efficient solutions to
-            manage academic activities, student records, and institutional data.
-        </p>
+        <!-- Service Cards -->
+        <div class="grid-3">
+
+            <div>
+                <div class="service-card">
+                    <div class="service-icon">🎓</div>
+                    <h3>Student Records</h3>
+                    <p>
+                        Manage complete student profiles including personal details,
+                        academic information, and enrollment records easily.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div class="service-card">
+                    <div class="service-icon">🏢</div>
+                    <h3>Department Management</h3>
+                    <p>
+                        Organize departments, courses, and academic sections with
+                        a structured and simple management system.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>Data Management</h3>
+                    <p>
+                        Store, update, and manage educational data securely with
+                        faster access and better organization.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div class="service-card">
+                    <div class="service-icon">👨‍🏫</div>
+                    <h3>Teacher Management</h3>
+                    <p>
+                        Maintain teacher details and manage academic responsibilities
+                        efficiently.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div class="service-card">
+                    <div class="service-icon">🔒</div>
+                    <h3>Secure System</h3>
+                    <p>
+                        Provides organized data handling with secure access and
+                        reliable information management.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <h3>Easy Management</h3>
+                    <p>
+                        A simple and user-friendly interface that saves time and
+                        improves productivity.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Benefits -->
+        <div class="benefits-section">
+            <h2>Why Choose Our System?</h2>
+            <ul class="benefit-list">
+                <li>Faster student information management</li>
+                <li>Easy CRUD operations for records</li>
+                <li>Organized department and student data</li>
+                <li>Simple interface for administrators</li>
+                <li>Improved accuracy and productivity</li>
+            </ul>
+        </div>
 
     </div>
 
-
-    <!-- Section Title -->
-    <div class="section-title">
-
-        <h2>What We Offer</h2>
-
-        <p>
-            A complete set of tools built to simplify academic
-            administration from every angle.
-        </p>
-
-    </div>
-
-
-    <div class="grid-3">
-
-        <div>
-            <div class="service-card">
-                <div class="service-icon">🎓</div>
-                <h3>Student Records</h3>
-                <p>
-                    Manage complete student profiles including personal details,
-                    academic information, and enrollment records easily.
-                </p>
-            </div>
-        </div>
-
-        <div>
-            <div class="service-card">
-                <div class="service-icon">🏢</div>
-                <h3>Department Management</h3>
-                <p>
-                    Organize departments, courses, and academic sections with
-                    a structured and simple management system.
-                </p>
-            </div>
-        </div>
-
-        <div>
-            <div class="service-card">
-                <div class="service-icon">📊</div>
-                <h3>Data Management</h3>
-                <p>
-                    Store, update, and manage educational data securely with
-                    faster access and better organization.
-                </p>
-            </div>
-        </div>
-
-        <div>
-            <div class="service-card">
-                <div class="service-icon">👨‍🏫</div>
-                <h3>Teacher Management</h3>
-                <p>
-                    Maintain teacher details and manage academic responsibilities
-                    efficiently.
-                </p>
-            </div>
-        </div>
-
-        <div>
-            <div class="service-card">
-                <div class="service-icon">🔒</div>
-                <h3>Secure System</h3>
-                <p>
-                    Provides organized data handling with secure access and
-                    reliable information management.
-                </p>
-            </div>
-        </div>
-
-        <div>
-            <div class="service-card">
-                <div class="service-icon">⚡</div>
-                <h3>Easy Management</h3>
-                <p>
-                    A simple and user-friendly interface that saves time and
-                    improves productivity.
-                </p>
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-- Benefits -->
-    <div class="benefits-section">
-
-        <h2>Why Choose Our System?</h2>
-
-        <ul class="benefit-list">
-            <li>Faster student information management</li>
-            <li>Easy CRUD operations for records</li>
-            <li>Organized department and student data</li>
-            <li>Simple interface for administrators</li>
-            <li>Improved accuracy and productivity</li>
-        </ul>
-
-    </div>
-
-</div>
-
-<?php include 'footer.php'; ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
