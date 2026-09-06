@@ -60,25 +60,28 @@
 
         /* Custom grid (replaces .row / .col-md-4) */
         .grid-3 {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
+           display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+           
         }
 
         .grid-3 > div {
-            flex: 1 1 300px;
+             min-width: 0;
         }
 
         /* Service Cards */
         .service-card {
             border: none;
-            border-radius: 15px;
-            padding: 35px 25px;
-            height: 100%;
-            background: white;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            text-align: center;
+    border-radius: 15px;
+    padding: 35px 25px;
+    height: 100%;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    text-align: center;
         }
 
         .service-card:hover {
