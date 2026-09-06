@@ -56,34 +56,43 @@ $benefits = [
         .overview-text { font-size: 17px; color: #555; line-height: 1.9; }
 
         /* ---------- Custom grid (replaces .row / .col-md-*) ---------- */
-        .grid-2 {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 40px;
-        }
-        .grid-2 > div { flex: 1 1 320px; }
+       .grid-2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+}
 
-        .grid-3 {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-        .grid-3 > div {
-            flex: 1 1 300px;
-        }
+.grid-2 > div {
+    flex: 1 1 320px;
+}
 
-        /* ---------- Cards ---------- */
-        .feature-card {
-            border: none;
-            border-radius: 15px;
-            padding: 35px 25px;
-            height: 100%;
-            background: white;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
+
+/* ---------- 3 Column Grid ---------- */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+.grid-3 > div {
+    min-width: 0;
+}
+
+
+/* ---------- Cards ---------- */
+.feature-card {
+    border: none;
+    border-radius: 15px;
+    padding: 35px 25px;
+    height: 100%;
+    box-sizing: border-box;
+    background: white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    text-align: center;
+}
         .feature-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
         .feature-icon { font-size: 48px; margin-bottom: 20px; }
         .feature-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 15px; color: #222; }
