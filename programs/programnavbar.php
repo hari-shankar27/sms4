@@ -29,6 +29,9 @@
  <ul class="home" id="homenav">
 
     <li>
+        <a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    </li>
+    <li>
         <a href="Departments.php" class="active"><i class="fa-solid fa-building"></i><span>Departments</span></a>
     </li>
     <li>
