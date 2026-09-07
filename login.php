@@ -58,21 +58,21 @@ if (!password_verify($password, $user["password"])) {
     die("Invalid email or password.");
 }
 
-// if ($user["status"] === "pending") {
+if ($user["status"] === "pending") {
 
-//     $conn->close();
+    $conn->close();
 
-//     die("Your account is waiting for admin approval.");
+    die("Your account is waiting for admin approval.");
 
-// }
+}
 
-// if ($user["status"] === "rejected") {
+if ($user["status"] === "rejected") {
 
-//     $conn->close();
+    $conn->close();
 
-//     die("Your registration has been rejected. Please contact the school.");
+    die("Your registration has been rejected. Please contact the school.");
 
-// }
+}
 
 
 // session_regenerate_id(true);
