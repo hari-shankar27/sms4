@@ -4,7 +4,7 @@ include("../db.php");
 
 
 if (!isset($_GET['id'])) {
-    header("Location: departmentteacher.php");
+    header("Location: index.php");
     exit();
 }
 
