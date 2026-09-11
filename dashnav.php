@@ -8,6 +8,18 @@ if (!isset($_SESSION["user_id"])) {
 }
 include "db.php";
 
+
+$stmt= $conn->prepare("SELECT id, user_id, title, message, is_read, created_at FROM notifications WHERE is_read=0 ORDER BY created_at DESC");
+$stmt->execute();
+$notifications = $stmt->get_result();
+
+
+$countStmt=$conn->prepare("SELECT COUNT(*) AS total FROM notifications WHERE is_read=0");
+$countStmt->execute();
+$unreadStmt=$countStmt->get_result()->fetch_assoc()['total'];
+
+
+
 $user_id = $_SESSION["user_id"];
 
 $stmt = $conn->prepare("SELECT name, role, profile FROM users WHERE id = ?");
@@ -15,7 +27,7 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 
 $user = $stmt->get_result()->fetch_assoc();
-
+$role=$_SESSION["role"] ?? "";
 $profile = $user["profile"] ?? "";
 ?>
 
@@ -50,16 +62,67 @@ $profile = $user["profile"] ?? "";
                 <input type="text" placeholder="Search...">
  
             </div>
-              <div class="notification">
-                <i class="fa-regular fa-bell"></i>
-                <span></span>
-            </div>
+           
+
+     <div class="notification" onclick="toggleNotificationMenu()">
+<i class="fa-regular fa-bell"></i>
+<?php if($unreadStmt >0 ): ?>
+<span class="badge">
+    <?= $unreadStmt ?>
+</span>
+<?php endif; ?>
+
+    <div class="notification-menu" id="notificationMenu">
+<div class="headern">
+    <h3>Notification</h3>
+    <a href="/sms4/notification/notifications.php">View All</a>
+</div>
+<div class="nlist">
+<?php if($notifications->num_rows>0): ?>
+
+    <?php while($notification = $notifications->fetch_assoc()): ?>
+
+        <a href="/sms4/notification/notifications.php" class="nitem <?= $notification['is_read']==0 ? 'unread': '' ?>">
+        <div class="nicon">
+                <i class="fa-solid fa-bell"></i>
+
+        </div>
+        <div class="ncontent">
+        <h4><?= htmlspecialchars($notification["title"]) ?>
+        </h4>
+        <p><?= htmlspecialchars($notification["message"]) ?></p>
+
+        <small>
+            <?= date("M d, Y h:i A", strtotime($notification["created_at"])) ?>
+        </small>
+
+    
+
+        </div>
+       
+    </a>
+    <?php endwhile; ?>
+    <?php else: ?>
+  <div class="non">
+    <i class="fa-regular fa-bell-slash"></i>
+    <p>No Notification</p>
+  </div>
+<?php endif; ?>
+</div>
+
+        <div class="notification-footer">
+            <a href="/sms4/notification/notifications.php">See all notifications</a>
+        </div>
+
+    </div>
+
+</div>
             <div class="admin">
                  <div class="admin-avatar">
 
     <?php if (!empty($profile)): ?>
 
-        <img src="<?= htmlspecialchars($profile) ?>"
+        <img src="/sms4/<?= htmlspecialchars($profile) ?>"
              alt="Profile">
 
     <?php else: ?>
@@ -68,6 +131,7 @@ $profile = $user["profile"] ?? "";
 
     <?php endif; ?>
 
+        
 </div>
                     <div class="profile-toggle-area" onclick="toggleAdminMenu()">
                <div class="admin-info">
@@ -94,7 +158,7 @@ $profile = $user["profile"] ?? "";
     
             <div class="admin-menu" id="adminMenu">
 
-        <a href="profile.php">
+        <a href="/sms4/profile.php">
             <i class="fa-regular fa-user"></i>
             <span>My Profile</span>
         </a>
@@ -121,43 +185,39 @@ $profile = $user["profile"] ?? "";
    </div>
    <ul class="sidebar-menu">
     <li>
+
         <a href="/sms4/dashboard1.php" class="<?= $currentPage=='dashboard1.php' ? 'active': '' ?>"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-
     </li>
-
-    <li> 
-        <a href="/sms4/departments/index.php" class="<?= $currentPage == 'departments/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-building"></i><span>Departments</span></a>
-    </li>
-
-  
-    
     <li>
-        <a href="student.php" class="<?= $currentPage == 'student.php' ? 'active' : '' ?>"><i class="fa-solid fa-user-graduate"></i><span>Student</span></a>
+        <a href="/sms4/student/student.php" class="<?= $currentPage == 'student.php' ? 'active' : '' ?>"><i class="fa-solid fa-user-graduate"></i><span>Student</span></a>
     </li>
 
    
             <li>
-                <a href="/sms4/teacher/teachers.php" class="<?= $currentPage == '/sms4/teacher/teachers.php' ? 'active' : '' ?>"><i class="fa-solid fa-chalkboard-user"></i><span>Teachers</span></a>
+                <a href="/sms4/teacher/teachers.php" class="<?= $currentPage == 'teachers.php' ? 'active' : '' ?>"><i class="fa-solid fa-chalkboard-user"></i><span>Teachers</span></a>
+            </li>
+                <li>
+                <a href="/sms4/departments/index2.php" class="<?= $currentPage == 'index2.php' ? 'active' : '' ?>"><i class="fa-solid fa-file-pen"></i><span>Department</span></a>
             </li>
 
             <li>
-                <a href="/sms4/classes/index.php" class="<?= $currentPage == 'classes/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-school"></i><span>Classes</span></a>
+                <a href="/sms4/classes/index3.php" class="<?= $currentPage == 'index3.php' ? 'active' : '' ?>"><i class="fa-solid fa-school"></i><span>Classes</span></a>
             </li>
 
             <li>
-                <a href="/sms4/subjects/index.php" class="<?= $currentPage == 'subjects/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
+                <a href="/sms4/subjects/index1.php" class="<?= $currentPage == 'index1.php' ? 'active' : '' ?>"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
             </li>
 
-            <!-- <li
+            <!-- <li>
                 <a href="#"><i class="fa-solid fa-calendar-check"></i><span>Attendance</span></a>
             </li> -->
 
             <li>
-                <a href="/sms4/exams/index.php" class="<?= $currentPage == 'exams/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-file-pen"></i><span>Exams</span></a>
+                <a href="/sms4/exam.php" class="<?= $currentPage == 'exams.php' ? 'active' : '' ?>"><i class="fa-solid fa-file-pen"></i><span>Exams</span></a>
             </li>
 
             <li>
-                <a href="/sms4/results/index.php" class="<?= $currentPage == 'results/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-chart-column"></i><span>Results</span></a>
+                <a href="#" class="<?= $currentPage == 'results.php' ? 'active' : '' ?>"><i class="fa-solid fa-chart-column"></i><span>Results</span></a>
             </li>
 
         </ul>
@@ -167,11 +227,11 @@ $profile = $user["profile"] ?? "";
 
 <ul class="sidebar-menu">
  <li>
-                <a href="/sms4/notice.php">  <i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
+                <a href="/sms4/notice/notice.php">  <i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
             </li>
 
             <li>
-                <a href="/sms4/events/index.php"><i class="fa-solid fa-calendar-days"></i><span>Events</span>
+                <a href="#"><i class="fa-solid fa-calendar-days"></i><span>Events</span>
                 </a>
             </li>
 
@@ -212,6 +272,13 @@ function toggleAdminMenu(){
     menu.classList.toggle("show");
     toggle.classList.toggle("active");
 }
+function toggleNotificationMenu() {
+
+    const menu = document.getElementById("notificationMenu");
+
+    menu.classList.toggle("show");
+
+}
 /* Close when clicking outside */
 document.addEventListener("click", function(event){
 
@@ -219,10 +286,17 @@ const admin = document.querySelector(".admin");
 const menu = document.getElementById("adminMenu");
 const toggle = document.querySelector(".dropdown");
 
+    const notification = document.querySelector(".notification");
+    const notificationMenu = document.getElementById("notificationMenu");
+
 if(!admin.contains(event.target)){
     menu.classList.remove("show");
     toggle.classList.remove("active");
 }
+  // Close notification menu
+    if (!notification.contains(event.target)) {
+        notificationMenu.classList.remove("show");
+    }
 
 } );
 
