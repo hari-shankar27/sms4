@@ -1,7 +1,7 @@
 <?php
 
 include("../db.php");
-include("../dashnav.php");
+
 
 // Get subject ID from URL
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -90,6 +90,8 @@ $department_query = "
 ";
 
 $departments = mysqli_query($conn, $department_query);
+
+include("../dashnav.php");
 
 ?>
 

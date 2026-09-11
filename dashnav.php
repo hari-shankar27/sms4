@@ -27,7 +27,7 @@ $profile = $user["profile"] ?? "";
     <title>Document</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-          <link rel="stylesheet" href="dashnav.css">
+          <link rel="stylesheet" href="/sms4/dashnav.css">
 
 </head>
 <body>
@@ -121,35 +121,43 @@ $profile = $user["profile"] ?? "";
    </div>
    <ul class="sidebar-menu">
     <li>
-        <a href="dashboard1.php" class="<?= $currentPage=='dashboard1.php' ? 'active': '' ?>"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+        <a href="/sms4/dashboard1.php" class="<?= $currentPage=='dashboard1.php' ? 'active': '' ?>"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+
     </li>
+
+    <li> 
+        <a href="/sms4/departments/index.php" class="<?= $currentPage == 'departments/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-building"></i><span>Departments</span></a>
+    </li>
+
+  
+    
     <li>
         <a href="student.php" class="<?= $currentPage == 'student.php' ? 'active' : '' ?>"><i class="fa-solid fa-user-graduate"></i><span>Student</span></a>
     </li>
 
    
             <li>
-                <a href="#" class="<?= $currentPage == 'teaxher.php' ? 'active' : '' ?>"><i class="fa-solid fa-chalkboard-user"></i><span>Teachers</span></a>
+                <a href="/sms4/teacher/teachers.php" class="<?= $currentPage == '/sms4/teacher/teachers.php' ? 'active' : '' ?>"><i class="fa-solid fa-chalkboard-user"></i><span>Teachers</span></a>
             </li>
 
             <li>
-                <a href="#" class="<?= $currentPage == 'classes.php' ? 'active' : '' ?>"><i class="fa-solid fa-school"></i><span>Classes</span></a>
+                <a href="/sms4/classes/index.php" class="<?= $currentPage == 'classes/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-school"></i><span>Classes</span></a>
             </li>
 
             <li>
-                <a href="#" class="<?= $currentPage == 'subjects.php' ? 'active' : '' ?>"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
+                <a href="/sms4/subjects/index.php" class="<?= $currentPage == 'subjects/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-book"></i><span>Subjects</span></a>
             </li>
 
-            <!-- <li>
+            <!-- <li
                 <a href="#"><i class="fa-solid fa-calendar-check"></i><span>Attendance</span></a>
             </li> -->
 
             <li>
-                <a href="#" class="<?= $currentPage == 'exams.php' ? 'active' : '' ?>"><i class="fa-solid fa-file-pen"></i><span>Exams</span></a>
+                <a href="/sms4/exams/index.php" class="<?= $currentPage == 'exams/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-file-pen"></i><span>Exams</span></a>
             </li>
 
             <li>
-                <a href="#" class="<?= $currentPage == 'results.php' ? 'active' : '' ?>"><i class="fa-solid fa-chart-column"></i><span>Results</span></a>
+                <a href="/sms4/results/index.php" class="<?= $currentPage == 'results/index.php' ? 'active' : '' ?>"><i class="fa-solid fa-chart-column"></i><span>Results</span></a>
             </li>
 
         </ul>
@@ -159,11 +167,11 @@ $profile = $user["profile"] ?? "";
 
 <ul class="sidebar-menu">
  <li>
-                <a href="notice.php">  <i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
+                <a href="/sms4/notice.php">  <i class="fa-solid fa-bullhorn"></i><span>Notices</span></a>
             </li>
 
             <li>
-                <a href="#"><i class="fa-solid fa-calendar-days"></i><span>Events</span>
+                <a href="/sms4/events/index.php"><i class="fa-solid fa-calendar-days"></i><span>Events</span>
                 </a>
             </li>
 

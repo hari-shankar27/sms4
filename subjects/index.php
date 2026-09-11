@@ -1,6 +1,6 @@
 <?php
 include("../db.php");
-include("../dashnav.php");
+
 
 // Delete subject
 if (isset($_GET['delete_id'])) {
@@ -27,6 +27,8 @@ $sql = "SELECT
         ORDER BY subjects.id DESC";
 
 $result = mysqli_query($conn, $sql);
+
+include("../dashnav.php");
 ?>
 
 <!DOCTYPE html>

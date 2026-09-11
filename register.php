@@ -89,17 +89,17 @@ $result = $stmt->get_result();
 
     if ($stmt->execute()) {
 
-    $student_id = $conn->insert_id;
+    // $student_id = $conn->insert_id;
     
-    $title="New Student Registration";
-    $messages = "$name has registered as a new student. Please check their details and approve this registration.";
+    // $title="New Student Registration";
+    // $messages = "$name has registered as a new student. Please check their details and approve this registration.";
 
-    $notify=$conn->prepare("INSERT INTO notifications (user_id, title, message) VALUES (?,?,?)");
-    $notify->bind_param("iss", $student_id, $title, $messages);
-    if(!$notify->execute()){
-        die("Notification creation failed:" .$notify->error);
-    }
-    $notify->close();
+    // $notify=$conn->prepare("INSERT INTO notifications (user_id, title, message) VALUES (?,?,?)");
+    // $notify->bind_param("iss", $student_id, $title, $messages);
+    // if(!$notify->execute()){
+    //     die("Notification creation failed:" .$notify->error);
+    // }
+    // $notify->close();
     
     echo "<script>
             alert('Registration successful! Please wait for admin approval.');

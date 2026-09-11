@@ -1,7 +1,7 @@
 
 <?php
 include("../db.php");
-// include("../dashnav.php");
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -35,6 +35,7 @@ $departments = mysqli_query(
     $conn,
     "SELECT id, name FROM departments ORDER BY name ASC"
 );
+include("../dashnav.php");
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +50,7 @@ $departments = mysqli_query(
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
         rel="stylesheet"> 
 
-        <link rel="stylesheet" href="../dashnav.css">
+        
     </head>
    <style>
     body {
@@ -300,11 +301,13 @@ $departments = mysqli_query(
                 </div>
 
                 <button type="submit" class="btn btn-save">
-                    Save Subject
+                    
+                Save Subject
                 </button>
 
                 <a href="index.php" class="btn btn-back">
-                    Back
+                   
+                Back
                 </a>
 
             </form>

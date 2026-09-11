@@ -16,7 +16,7 @@
 
      <div class="left">
         <div class="wel">
-            <span class="dot"></span>Welcome to HariManage
+            <span class="dot"></span>Welcome to ManageSchool
         </div>
 <h1 class="title">Empowering Students.<br><span>Building Bright Futures.</span></h1>
  <p class="dis">A modern school management platform designed to connect students, teachers, parents 
@@ -27,7 +27,7 @@
         Explore Programs 
         <i class="fa-solid fa-arrow-right"></i>
     </a>
-    <a href="about.html" class="learn">
+    <a href="about.php" class="learn">
         <span>
         <i class="fa-solid fa-play"></i></span>
         Learn More

@@ -16,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $title = trim($_POST["title"] ?? "");
     $description = trim($_POST["description"] ?? "");
-    $notice_date = $_POST["notice_date"] ?? "";
+    $created_at = $_POST["created_at"] ?? "";
 
-    if (empty($title) || empty($description) || empty($notice_date)) {
+    if (empty($title) || empty($description) || empty($created_at)) {
 
         $message = "Please fill in all fields.";
         $messageType = "error";
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
 
         $stmt = $conn->prepare(
-            "INSERT INTO notices (title, description, notice_date)
+            "INSERT INTO notices (title, description, created_at)
              VALUES (?, ?, ?)"
         );
 
@@ -34,13 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "sss",
             $title,
             $description,
-            $notice_date
+            $created_at,
         );
 
         if ($stmt->execute()) {
 
             // Redirect after successful creation
-            header("Location: dashboard.php");
+            header("Location: dashboard1.php");
             exit;
 
         } else {
@@ -537,15 +537,15 @@ body.sidebar-collapsed .dashnav {
                 </div>
 
                 <div class="form-group">
-                    <label for="notice_date">Notice Date</label>
+                    <label for="created_at">Notice Date</label>
 
                     <div class="input-wrapper">
                         <i class="fa-regular fa-calendar"></i>
 
                         <input
                             type="date"
-                            id="notice_date"
-                            name="notice_date"
+                            id="created_at"
+                            name="created_at"
                             value="<?= date("Y-m-d") ?>"
                             required
                         >
