@@ -26,7 +26,13 @@ $approvedStudents= $approvedStmt->get_result()->fetch_assoc()["total"];
 $approvedT->execute();
 $approvedTeachers= $approvedT->get_result()->fetch_assoc()["total"];
 
+  $subject= $conn->prepare("SELECT COUNT(*) AS total FROM subjects");
+$subject->execute();
+$Tsubjects= $subject->get_result()->fetch_assoc()["total"];
 
+  $classes= $conn->prepare("SELECT COUNT(*) AS total FROM exams");
+$classes->execute();
+$Tclasses= $classes->get_result()->fetch_assoc()["total"];
 ?>
 
 
@@ -87,7 +93,7 @@ $approvedTeachers= $approvedT->get_result()->fetch_assoc()["total"];
             </div>
             <div>
                 <h3>Classes</h3>
-                <strong>12</strong>
+                <strong><?= $Tclasses ?></strong>
                 <p>Active Classes</p>
             </div>
         </div>
@@ -98,7 +104,7 @@ $approvedTeachers= $approvedT->get_result()->fetch_assoc()["total"];
             </div>
             <div>
                 <h3>Subjects</h3>
-                <strong>35</strong>
+                <strong><?= $Tsubjects ?></strong>
                 <p>Total Subjects</p>
             </div>
         </div>
