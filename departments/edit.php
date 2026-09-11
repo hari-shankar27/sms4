@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt, "s", $name);
 
             if (mysqli_stmt_execute($stmt)) {
-               
+               header("Location: index.php");
                 exit();
             } else {
                 $error_msg = "Failed to add department: " . mysqli_error($conn);
@@ -58,103 +58,134 @@ include("../dashnav.php");
     
 
 <style>
-    .department-container {
-        width: 90%;
-        max-width: 700px;
-        margin: 50px auto;
+    .edit-page {
+    margin-left: 250px;
+    padding: 80px 30px 30px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+}
+
+.edit-container h1 {
+    margin: 0 0 20px;
+    color: #333;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.edit-form label {
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.edit-form input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.edit-form input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+.button-group{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  
+}
+
+.update-btn {
+    width: 100%;
+    padding: 11px;
+    margin-top: 5px;
+    background-color: #0d6efd;
+    color: #fff;
+      font-family: inherit;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.update-btn:hover {
+    background-color: #0b5ed7;
+}
+
+.cancel-btn {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    margin-top: 2px;
+    background-color: #6c757d;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: #5c636a;
+    color: #fff;
+}
+
+.alert-box {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    background-color: #f8d7da;
+    color: #842029;
+    font-size: 14px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .edit-page {
+        margin-left: 0;
+        padding: 70px 15px 25px;
     }
 
-    .department-card {
-        background: white;
-        padding: 35px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+    .edit-container {
+        max-width: 100%;
+        padding: 20px;
     }
 
-    .department-card h1 {
-        margin-bottom: 25px;
-        color: #333;
-        font-weight: 600;
-        text-align: center;
+    .edit-container h1 {
+        font-size: 23px;
     }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #444;
-        font-weight: 500;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 11px 14px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 15px;
-        box-sizing: border-box;
-        outline: none;
-    }
-
-    .form-control:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.15);
-    }
-
-    .button-group {
-        display: flex;
-        gap: 10px;
-        margin-top: 25px;
-    }
-
-    .btn-update {
-        background-color: #198754;
-        color: white;
-        padding: 10px 18px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        text-decoration: none;
-    }
-
-    .btn-update:hover {
-        background-color: #157347;
-    }
-
-    .btn-cancel {
-        background-color: #6c757d;
-        color: white;
-        padding: 10px 18px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    .btn-cancel:hover {
-        background-color: #5c636a;
-        color: white;
-    }
-
-    .alert-box {
-        padding: 12px 18px;
-        border-radius: 6px;
-        margin-bottom: 20px;
-        font-weight: 500;
-    }
-
-    .alert-error {
-        background-color: #f8d7da;
-        color: #842029;
-    }
+}
 </style>
 
-<div class="department-container">
+<div class="edit-page">
 
-    <div class="department-card">
+    <div class="edit-container">
 
         <h1>Update Department</h1>
 
@@ -162,7 +193,7 @@ include("../dashnav.php");
             <div class="alert-box alert-error"><?= htmlspecialchars($error_msg) ?></div>
         <?php endif; ?>
 
-        <form action="edit.php" method="POST">
+        <form action="edit.php" method="POST" class="edit-form">
 
             <div class="form-group">
                 <label for="name">Department Name</label>
@@ -178,8 +209,8 @@ include("../dashnav.php");
             </div>
 
             <div class="button-group">
-                <button type="submit" class="btn-update">Update Department</button>
-                <a href="index.php" class="btn-cancel">Cancel</a>
+                <button type="submit" class="update-btn">Update Department</button>
+                <a href="index.php" class="cancel-btn">Cancel</a>
             </div>
 
         </form>

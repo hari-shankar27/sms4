@@ -35,77 +35,108 @@ include("../dashnav.php");
     <title>Document</title>
      <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-          <link rel="stylesheet" href="../dashnav.css">
+       
 
 </head>
 <body>
     
 <style>
+.create-page {
+    margin-left: 250px;
+    padding: 100px 45px 45px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    transition: margin-left 0.3s ease;
+    justify-content: center;
+}
+body.sidebar-collapsed .create-page{
+    margin-left: 80px;
+}
+.department-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.department-container h1 {
+    margin: 0 0 25px;
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.department-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.department-form input {
+    width: 100%;
+    padding: 12px 15px;
+    font-family: inherit;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.department-form input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.create-btn {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.create-btn:hover {
+    background: #1d4ed8;
+}
+
+.alert-box {
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .create-page {
+        margin-left: 0;
+        padding: 80px 20px 30px;
+    }
+
     .department-container {
-        max-width: 600px;
-        margin: 60px auto;
-        padding: 35px;
-        background: #ffffff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        max-width: 100%;
+        padding: 25px 20px;
     }
 
     .department-container h1 {
-        text-align: center;
-        color: #333;
-        font-size: 28px;
-        margin-bottom: 30px;
-        font-weight: 600;
+        font-size: 24px;
     }
-
-    .department-form {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-    }
-
-    .department-form input {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #bbb;
-        border-radius: 5px;
-        font-size: 16px;
-        outline: none;
-        transition: 0.3s;
-        box-sizing: border-box;
-    }
-
-    .department-form input:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-
-    .create-btn {
-        padding: 12px;
-        background: #2563eb;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .create-btn:hover {
-        background: #1d4ed8;
-    }
-
-    .alert-box {
-        padding: 12px 18px;
-        border-radius: 6px;
-        margin-bottom: 20px;
-        font-weight: 500;
-        background-color: #f8d7da;
-        color: #842029;
-    }
+}
 </style>
+<main class="create-page">
 
 <div class="department-container">
 
@@ -132,7 +163,7 @@ include("../dashnav.php");
     </form>
 
 </div>
-
+</main>
 
 </body>
 </html>

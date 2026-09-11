@@ -32,7 +32,7 @@ if ($teacherResult) {
         // Get all departments assigned to this teacher
         $deptStmt = mysqli_prepare($conn, "
             SELECT d.id, d.name
-            FROM teacher_departments td
+            FROM teachersdepartments td
             INNER JOIN departments d ON d.id = td.department_id
             WHERE td.teacher_id = ?
             ORDER BY d.name ASC
@@ -86,7 +86,7 @@ include("../dashnav.php");
 
      <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-          <link rel="stylesheet" href="../dashnav.css">
+        
 <head>     
 <style>
     .department-container {
@@ -241,7 +241,7 @@ include("../dashnav.php");
     <?php if (!empty($error_msg)): ?>
         <div class="alert-box alert-error"><?= htmlspecialchars($error_msg) ?></div>
     <?php endif; ?>
-
+</div>
     
     </body>
     </html>

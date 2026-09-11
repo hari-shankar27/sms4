@@ -141,14 +141,17 @@ if ($result) {
 <style>
 
     .department-container {
-        width: calc(100% - 250px);
+      
         margin-left: 250px;
-        margin-top: 70px;
-        padding: 20px;
+        padding: 100px 40px 40px;
+      min-height: 100vh;
         box-sizing: border-box;
-        min-height: calc(100vh - 70px);
+        transition: margin-left 0.3s ease;
+        
     }
-
+body.sidebar-collapsed .department-container{
+    margin-left: 80px;
+}
 
     .department-header {
         display: flex;
@@ -157,6 +160,7 @@ if ($result) {
         margin-bottom: 20px;
         flex-wrap: wrap;
         gap: 10px;
+        margin-top: 20px;
     }
 
 
@@ -175,7 +179,7 @@ if ($result) {
 
 
     .add-btn {
-        background-color: #198754;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
         color: white;
         padding: 10px 18px;
         border-radius: 6px;
@@ -186,24 +190,23 @@ if ($result) {
 
 
     .add-btn:hover {
-        background-color: #157347;
+        background: #0b5ed7;
         color: white;
     }
 
+.table-box {
+    
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+    overflow-x: auto;
+}
 
-    .table-box {
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
-        overflow-x: auto;
-    }
-
-
-    .department-table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 600px;
-    }
+.department-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
 
 
     .department-table thead {
@@ -214,7 +217,7 @@ if ($result) {
 
     .department-table th,
     .department-table td {
-        padding: 15px;
+        padding:10px 15px;
         text-align: left;
         border-bottom: 1px solid #ddd;
         white-space: nowrap;

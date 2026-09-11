@@ -107,11 +107,120 @@ $teacher_query = mysqli_query(
 
     <title>Assign Teacher</title>
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    
+<style>
+* {
+    box-sizing: border-box;
+    font-family: inherit;
+}
 
+body {
+    margin: 0;
+    background: #f5f7fb;
+    
+}
+
+.container {
+    margin-left: 250px;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+}
+body.sidebar-collapsed .container{
+    margin-left: 80px;
+}
+
+.container h2 {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 0 20px;
+    color: #333;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.container form {
+    width: 100%;
+    max-width: 500px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mb-3 {
+    margin-bottom: 18px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background: white;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+.btn2 {
+    display: inline-block;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-success {
+    background: #198754;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #157347;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    margin-left: 6px;
+}
+
+.btn-secondary:hover {
+    background: #5c636a;
+}
+
+@media (max-width: 700px) {
+    .container {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .container form {
+        padding: 20px;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -194,14 +303,14 @@ $teacher_query = mysqli_query(
 
         <button
             type="submit"
-            class="btn btn-success"
+            class="btn2 btn-success"
         >
             Save
         </button>
 
         <a
             href="departmentteacher.php"
-            class="btn btn-secondary"
+            class="btn2 btn-secondary"
         >
             Back
         </a>
