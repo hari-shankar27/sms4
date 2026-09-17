@@ -112,10 +112,9 @@ $Tclasses= $classes->get_result()->fetch_assoc()["total"];
     </div>
 
 
-    <!-- Bottom Simple Sections -->
     <div class="dashboard-grid">
 
-        <!-- Recent Notices -->
+       
         <div class="dashboard-box">
             <div class="box-header">
                 <h2>Recent Notices</h2>
