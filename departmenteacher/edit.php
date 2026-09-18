@@ -1,37 +1,26 @@
-<?php
 
+<?php
 include("../db.php");
 
+$error = "";
+$id = (int)($_GET["id"] ?? $_POST["id"] ?? 0);
 
-if (!isset($_GET['id'])) {
-    header("Location: index.php");
-    exit();
+if ($id <= 0) {
+    header("Location:index.php");
+    exit;
 }
 
-$id = (int) $_GET['id'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $department_id = (int)($_POST["department_id"] ?? 0);
+    $teacher_id = (int)($_POST["teacher_id"] ?? 0);
 
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $department_id = (int) $_POST['department_id'];
-    $teacher_id = (int) $_POST['teacher_id'];
-
-    if ($department_id == 0 || $teacher_id == 0) {
-
-        echo "<script>
-                alert('Please select department and teacher.');
-              </script>";
-
+    if (!$department_id || !$teacher_id) {
+        $error = "Please select both department and teacher.";
     } else {
-
         $check = mysqli_prepare(
             $conn,
-            "SELECT id 
-             FROM department_teacher
-             WHERE department_id = ?
-             AND teacher_id = ?
-             AND id != ?"
+            "SELECT id FROM teachersdepartments
+             WHERE department_id = ? AND teacher_id = ? AND id != ?"
         );
 
         mysqli_stmt_bind_param(
@@ -43,23 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         );
 
         mysqli_stmt_execute($check);
+        $result = mysqli_stmt_get_result($check);
 
-        $check_result = mysqli_stmt_get_result($check);
-
-
-        if (mysqli_num_rows($check_result) > 0) {
-
-            echo "<script>
-                    alert('This teacher is already assigned to this department.');
-                  </script>";
-
+        if (mysqli_num_rows($result) > 0) {
+            $error = "This teacher is already assigned to this department.";
         } else {
-
-            // Update assignment
             $stmt = mysqli_prepare(
                 $conn,
-                "UPDATE department_teacher
-                 SET department_id = ?, teacher_id = ?
+                "UPDATE teachersdepartments
+                 SET department_id = ?, teacher_id = ?, updated_at = NOW()
                  WHERE id = ?"
             );
 
@@ -71,23 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $id
             );
 
-
             if (mysqli_stmt_execute($stmt)) {
-
-                echo "<script>
-                        alert('Department teacher updated successfully.');
-                        window.location.href='departmentteacher.php';
-                      </script>";
-
-                exit();
-
-            } else {
-
-                echo "<script>
-                        alert('Error updating assignment.');
-                      </script>";
+                header("Location:index.php?status=updated");
+                exit;
             }
 
+            $error = "Failed to update assignment.";
             mysqli_stmt_close($stmt);
         }
 
@@ -97,206 +67,269 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $stmt = mysqli_prepare(
     $conn,
-    "SELECT id, department_id, teacher_id
-     FROM department_teacher
+    "SELECT department_id, teacher_id
+     FROM teachersdepartments
      WHERE id = ?"
 );
 
 mysqli_stmt_bind_param($stmt, "i", $id);
-
 mysqli_stmt_execute($stmt);
 
 $result = mysqli_stmt_get_result($stmt);
-
-$departmentTeacher = mysqli_fetch_assoc($result);
+$assignment = mysqli_fetch_assoc($result);
 
 mysqli_stmt_close($stmt);
 
-
-if (!$departmentTeacher) {
-
-    echo "Department teacher assignment not found.";
-    exit();
+if (!$assignment) {
+    header("Location:index.php");
+    exit;
 }
 
-$department_query = mysqli_query(
+$departments = mysqli_query(
     $conn,
-    "SELECT id, name
-     FROM departments
-     ORDER BY name ASC"
+    "SELECT id, name FROM departments ORDER BY name ASC"
 );
 
-$teacher_query = mysqli_query(
+$teachers = mysqli_query(
     $conn,
-    "SELECT id, name
-     FROM teachers
-     ORDER BY name ASC"
+    "SELECT id, name FROM teachers ORDER BY name ASC"
 );
+
 include("../dashnav.php");
 ?>
 
-<!DOCTYPE html>
+<style>
+.assign-page {
+    margin-left: 250px;
+    min-height: 100vh;
+    padding: 90px 30px 40px;
 
-<html lang="en">
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-<head>
+    transition: margin-left 0.3s ease;
+}
 
-    <meta charset="UTF-8">
+body.sidebar-collapsed .assign-page {
+    margin-left: 80px;
+}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+.assign-box {
+    width: 100%;
+    max-width: 520px;
+    padding: 32px;
 
-    <title>Edit Department Teacher</title>
-    
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-        <link rel="stylesheet" href="../dashnav.css">
+    background: #ffffff;
+    border-radius: 10px;
 
-</head>
+    box-shadow: 0 10px 30px rgba(15, 47, 87, 0.12);
+}
 
+.assign-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
 
-<body>
+.assign-icon {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 12px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-<div class="container mt-5">
+    background: #eff6ff;
+    color: #2563eb;
 
-    <h2 class="mb-4">
-        Edit Department Teacher
-    </h2>
+    border-radius: 50%;
+    font-size: 23px;
+}
 
+.assign-header h2 {
+    margin: 0;
+    color: #0f2f57;
+    font-size: 24px;
+    font-weight: 700;
+}
 
-    <form action="" method="POST">
+.form-group {
+    margin-bottom: 18px;
+}
 
-        <div class="mb-3">
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
 
-            <label class="form-label">
-                Department
-            </label>
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
 
+.form-control {
+    width: 100%;
+    padding: 12px;
 
-            <select
-                name="department_id"
-                class="form-control"
-                required
-            >
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
 
-                <option value="">
-                    Select Department
-                </option>
+    background: #ffffff;
+    color: #333;
+    font-size: 15px;
 
+    outline: none;
+}
 
-                <?php
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
 
-                while ($department = mysqli_fetch_assoc($department_query)) {
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
 
-                    $selected = "";
+.assign-btn {
+    flex: 1;
+    padding: 11px;
 
-                    if (
-                        $departmentTeacher['department_id']
-                        == $department['id']
-                    ) {
+    border: none;
+    border-radius: 7px;
 
-                        $selected = "selected";
+    text-align: center;
+    text-decoration: none;
 
-                    }
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
 
-                ?>
+.update-btn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+}
 
-                    <option
-                        value="<?php echo $department['id']; ?>"
-                        <?php echo $selected; ?>
-                    >
+.update-btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
 
-                        <?php
-                        echo htmlspecialchars(
-                            $department['name']
-                        );
-                        ?>
+.back-btn {
+    background: #e5e7eb;
+    color: #374151;
+}
 
-                    </option>
+.back-btn:hover {
+    background: #d1d5db;
+}
 
-                <?php } ?>
+.error {
+    margin-bottom: 18px;
+    padding: 11px 14px;
 
-            </select>
+    background: #fef2f2;
+    color: #b42318;
 
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .assign-page {
+        margin-left: 0;
+        padding: 30px 20px;
+    }
+
+    .assign-box {
+        padding: 24px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}
+</style>
+
+<div class="assign-page">
+
+    <div class="assign-box">
+
+        <div class="assign-header">
+            <div class="assign-icon">
+                <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <h2>Edit Teacher Assignment</h2>
         </div>
 
-        <div class="mb-3">
+        <?php if ($error): ?>
+            <div class="error">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
 
-            <label class="form-label">
-                Teacher
-            </label>
+        <form method="POST">
 
+            <input type="hidden" name="id" value="<?= $id ?>">
 
-            <select
-                name="teacher_id"
-                class="form-control"
-                required
-            >
+            <div class="form-group">
+                <label>Department</label>
 
-                <option value="">
-                    Select Teacher
-                </option>
+                <select name="department_id" class="form-control" required>
+                    <option value="">Select Department</option>
 
+                    <?php while ($department = mysqli_fetch_assoc($departments)): ?>
 
-                <?php
+                        <option
+                            value="<?= $department["id"] ?>"
+                            <?= $assignment["department_id"] == $department["id"] ? "selected" : "" ?>
+                        >
+                            <?= htmlspecialchars($department["name"]) ?>
+                        </option>
 
-                while ($teacher = mysqli_fetch_assoc($teacher_query)) {
+                    <?php endwhile; ?>
+                </select>
+            </div>
 
-                    $selected = "";
+            <div class="form-group">
+                <label>Teacher</label>
 
-                    if (
-                        $departmentTeacher['teacher_id']
-                        == $teacher['id']
-                    ) {
+                <select name="teacher_id" class="form-control" required>
+                    <option value="">Select Teacher</option>
 
-                        $selected = "selected";
+                    <?php while ($teacher = mysqli_fetch_assoc($teachers)): ?>
 
-                    }
+                        <option
+                            value="<?= $teacher["id"] ?>"
+                            <?= $assignment["teacher_id"] == $teacher["id"] ? "selected" : "" ?>
+                        >
+                            <?= htmlspecialchars($teacher["name"]) ?>
+                        </option>
 
-                ?>
+                    <?php endwhile; ?>
+                </select>
+            </div>
 
-                    <option
-                        value="<?php echo $teacher['id']; ?>"
-                        <?php echo $selected; ?>
-                    >
+            <div class="actions">
 
-                        <?php
-                        echo htmlspecialchars(
-                            $teacher['name']
-                        );
-                        ?>
+                <button type="submit" class="assign-btn update-btn">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Update
+                </button>
 
-                    </option>
+                <a href="index.php" class="assign-btn back-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                </a>
 
-                <?php } ?>
+            </div>
 
-            </select>
+        </form>
 
-        </div>
-
-        <button
-            type="submit"
-            class="btn btn-primary"
-        >
-            Update
-        </button>
-
-
-        <a
-            href="departmentteacher.php"
-            class="btn btn-secondary"
-        >
-            Back
-        </a>
-
-
-    </form>
+    </div>
 
 </div>
-
-
-</body>
-
-</html>

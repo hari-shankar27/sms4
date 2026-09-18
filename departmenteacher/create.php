@@ -1,77 +1,45 @@
-<?php
 
+<?php
 include("../db.php");
 
+$error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $department_id = (int)($_POST["department_id"] ?? 0);
+    $teacher_id = (int)($_POST["teacher_id"] ?? 0);
 
-    $department_id = (int) $_POST["department_id"];
-    $teacher_id = (int) $_POST["teacher_id"];
-
-    // Validation
-    if ($department_id == 0 || $teacher_id == 0) {
-
-        echo "<script>
-                alert('Please select both department and teacher.');
-              </script>";
-
+    if (!$department_id || !$teacher_id) {
+        $error = "Please select both department and teacher.";
     } else {
-
-        // Check if teacher is already assigned to this department
         $check = mysqli_prepare(
             $conn,
-            "SELECT * FROM teachersdepartments
+            "SELECT id FROM teachersdepartments
              WHERE department_id = ? AND teacher_id = ?"
         );
 
-        mysqli_stmt_bind_param(
-            $check,
-            "ii",
-            $department_id,
-            $teacher_id
-        );
-
+        mysqli_stmt_bind_param($check, "ii", $department_id, $teacher_id);
         mysqli_stmt_execute($check);
 
         $result = mysqli_stmt_get_result($check);
 
         if (mysqli_num_rows($result) > 0) {
-
-            echo "<script>
-                    alert('This teacher is already assigned to this department.');
-                  </script>";
-
+            $error = "This teacher is already assigned to this department.";
         } else {
-
-            // Insert assignment
             $stmt = mysqli_prepare(
                 $conn,
                 "INSERT INTO teachersdepartments
-                (department_id, teacher_id)
-                VALUES (?, ?)"
+                (department_id, teacher_id, created_at, updated_at)
+                VALUES (?, ?, NOW(), NOW())"
             );
 
-            mysqli_stmt_bind_param(
-                $stmt,
-                "ii",
-                $department_id,
-                $teacher_id
-            );
+            mysqli_stmt_bind_param($stmt, "ii", $department_id, $teacher_id);
 
             if (mysqli_stmt_execute($stmt)) {
-
-                echo "<script>
-                        alert('Teacher assigned successfully.');
-                        window.location.href='index.php';
-                      </script>";
-
-            } else {
-
-                echo "<script>
-                        alert('Error assigning teacher: " . mysqli_error($conn) . "');
-                      </script>";
+                header("Location: index.php?status=created");
+                exit;
             }
 
+            $error = "Failed to assign teacher.";
             mysqli_stmt_close($stmt);
         }
 
@@ -79,246 +47,239 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-include("../dashnav.php");
-
-// Get departments
-$department_query = mysqli_query(
+$departments = mysqli_query(
     $conn,
     "SELECT id, name FROM departments ORDER BY name ASC"
 );
 
-
-// Get teachers
-$teacher_query = mysqli_query(
+$teachers = mysqli_query(
     $conn,
     "SELECT id, name FROM teachers ORDER BY name ASC"
 );
 
+include("../dashnav.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Assign Teacher</title>
-
-    
 <style>
-* {
-    box-sizing: border-box;
-    font-family: inherit;
-}
-
-body {
-    margin: 0;
-    background: #f5f7fb;
-    
-}
-
-.container {
+.assign-page {
     margin-left: 250px;
     min-height: 100vh;
+    padding: 90px 30px 40px;
 
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    padding: 30px;
     transition: margin-left 0.3s ease;
 }
-body.sidebar-collapsed .container{
+
+body.sidebar-collapsed .assign-page {
     margin-left: 80px;
 }
 
-.container h2 {
+.assign-box {
     width: 100%;
-    max-width: 500px;
-    margin: 0 0 20px;
-    color: #333;
-    font-size: 26px;
-    font-weight: 600;
-}
+    max-width: 520px;
+    padding: 32px;
 
-.container form {
-    width: 100%;
-    max-width: 500px;
-    background: white;
-    padding: 30px;
+    background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    box-shadow: 0 10px 30px rgba(15, 47, 87, 0.12);
 }
 
-.mb-3 {
+.assign-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.assign-icon {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    border-radius: 50%;
+    font-size: 23px;
+}
+
+.assign-header h2 {
+    margin: 0;
+    color: #0f2f57;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.form-group {
     margin-bottom: 18px;
 }
 
-.form-label {
+.form-group label {
     display: block;
     margin-bottom: 7px;
-    color: #444;
+
+    color: #334155;
     font-size: 14px;
     font-weight: 600;
 }
 
 .form-control {
     width: 100%;
-    padding: 11px 13px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #333;
     font-size: 15px;
-    background: white;
+
     outline: none;
 }
 
 .form-control:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.btn2 {
-    display: inline-block;
-    padding: 10px 18px;
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.assign-btn {
+    flex: 1;
+    padding: 11px;
+
     border: none;
-    border-radius: 6px;
+    border-radius: 7px;
+
+    text-align: center;
     text-decoration: none;
-    font-size: 15px;
+
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
 }
 
-.btn-success {
-    background: #198754;
-    color: white;
+.save-btn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
 }
 
-.btn-success:hover {
-    background: #157347;
+.save-btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
 }
 
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-    margin-left: 6px;
+.back-btn {
+    background: #e5e7eb;
+    color: #374151;
 }
 
-.btn-secondary:hover {
-    background: #5c636a;
+.back-btn:hover {
+    background: #d1d5db;
+}
+
+.error {
+    margin-bottom: 18px;
+    padding: 11px 14px;
+
+    background: #fef2f2;
+    color: #b42318;
+
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+
+    font-size: 14px;
 }
 
 @media (max-width: 700px) {
-    .container {
+    .assign-page {
         margin-left: 0;
-        padding: 20px;
+        padding: 30px 20px;
     }
 
-    .container form {
-        padding: 20px;
+    .assign-box {
+        padding: 24px;
+    }
+
+    .actions {
+        flex-direction: column;
     }
 }
 </style>
-</head>
 
-<body>
+<div class="assign-page">
 
-<div class="container mt-5">
+    <div class="assign-box">
 
-    <h2 class="mb-4">
-        Assign Teacher to Department
-    </h2>
+        <div class="assign-header">
+            <div class="assign-icon">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
 
-    <form action="" method="POST">
-
-        <!-- Department -->
-
-        <div class="mb-3">
-
-            <label class="form-label">
-                Department
-            </label>
-
-            <select
-                name="department_id"
-                class="form-control"
-                required
-            >
-
-                <option value="">
-                    Select Department
-                </option>
-
-                <?php while ($department = mysqli_fetch_assoc($department_query)) { ?>
-
-                    <option value="<?php echo $department['id']; ?>">
-
-                        <?php echo htmlspecialchars($department['name']); ?>
-
-                    </option>
-
-                <?php } ?>
-
-            </select>
-
+            <h2>Assign Teacher to Department</h2>
         </div>
 
+        <?php if ($error): ?>
+            <div class="error">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
 
-        <!-- Teacher -->
+        <form method="POST">
 
-        <div class="mb-3">
+            <div class="form-group">
+                <label>Department</label>
 
-            <label class="form-label">
-                Teacher
-            </label>
+                <select name="department_id" class="form-control" required>
+                    <option value="">Select Department</option>
 
-            <select
-                name="teacher_id"
-                class="form-control"
-                required
-            >
+                    <?php while ($department = mysqli_fetch_assoc($departments)): ?>
+                        <option value="<?= $department["id"] ?>">
+                            <?= htmlspecialchars($department["name"]) ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
 
-                <option value="">
-                    Select Teacher
-                </option>
+            <div class="form-group">
+                <label>Teacher</label>
 
-                <?php while ($teacher = mysqli_fetch_assoc($teacher_query)) { ?>
+                <select name="teacher_id" class="form-control" required>
+                    <option value="">Select Teacher</option>
 
-                    <option value="<?php echo $teacher['id']; ?>">
+                    <?php while ($teacher = mysqli_fetch_assoc($teachers)): ?>
+                        <option value="<?= $teacher["id"] ?>">
+                            <?= htmlspecialchars($teacher["name"]) ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
 
-                        <?php echo htmlspecialchars($teacher['name']); ?>
+            <div class="actions">
 
-                    </option>
+                <button type="submit" class="assign-btn save-btn">
+                    <i class="fa-solid fa-link"></i>
+                    Assign Teacher
+                </button>
 
-                <?php } ?>
+                <a href="index.php" class="assign-btn back-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back
+                </a>
 
-            </select>
+            </div>
 
-        </div>
+        </form>
 
-
-        <!-- Buttons -->
-
-        <button
-            type="submit"
-            class="btn2 btn-success"
-        >
-            Save
-        </button>
-
-        <a
-            href="departmentteacher.php"
-            class="btn2 btn-secondary"
-        >
-            Back
-        </a>
-
-    </form>
+    </div>
 
 </div>
-
-</body>
-
-</html>

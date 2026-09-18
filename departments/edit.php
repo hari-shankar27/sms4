@@ -1,224 +1,267 @@
 <?php
-
-
 include("../db.php");
 
+$id = (int)($_GET["id"] ?? $_POST["id"] ?? 0);
 $error_msg = "";
 $name = "";
 
-// ----------------------------
-// Handle Form Submission
-// ----------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($id <= 0) {
+    header("Location:index.php");
+    exit;
+}
 
-    $name = trim($_POST['name'] ?? '');
+$stmt = mysqli_prepare($conn, "SELECT name FROM departments WHERE id = ?");
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_bind_result($stmt, $name);
 
-    if ($name === '') {
+if (!mysqli_stmt_fetch($stmt)) {
+    mysqli_stmt_close($stmt);
+    header("Location:index.php");
+    exit;
+}
+mysqli_stmt_close($stmt);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name = trim($_POST["name"] ?? "");
+
+    if ($name === "") {
         $error_msg = "Department name is required.";
     } else {
+        $stmt = mysqli_prepare(
+            $conn,
+            "SELECT id FROM departments WHERE name = ? AND id != ?"
+        );
+        mysqli_stmt_bind_param($stmt, "si", $name, $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_store_result($stmt);
 
-        // Check for duplicate department name
-        $check_stmt = mysqli_prepare($conn, "SELECT id FROM departments WHERE name = ?");
-        mysqli_stmt_bind_param($check_stmt, "s", $name);
-        mysqli_stmt_execute($check_stmt);
-        mysqli_stmt_store_result($check_stmt);
-
-        if (mysqli_stmt_num_rows($check_stmt) > 0) {
+        if (mysqli_stmt_num_rows($stmt)) {
             $error_msg = "A department with this name already exists.";
         } else {
-            $stmt = mysqli_prepare($conn, "INSERT INTO departments (name, created_at, updated_at) VALUES (?, NOW(), NOW())");
-            mysqli_stmt_bind_param($stmt, "s", $name);
+            mysqli_stmt_close($stmt);
+
+            $stmt = mysqli_prepare(
+                $conn,
+                "UPDATE departments SET name = ?, updated_at = NOW() WHERE id = ?"
+            );
+            mysqli_stmt_bind_param($stmt, "si", $name, $id);
 
             if (mysqli_stmt_execute($stmt)) {
-               header("Location: index.php");
-                exit();
-            } else {
-                $error_msg = "Failed to add department: " . mysqli_error($conn);
+                header("Location:index.php?status=updated");
+                exit;
             }
 
-            mysqli_stmt_close($stmt);
+            $error_msg = "Failed to update department.";
         }
 
-        mysqli_stmt_close($check_stmt);
+        mysqli_stmt_close($stmt);
     }
 }
+
 include("../dashnav.php");
 ?>
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-          <link rel="stylesheet" href="../dashnav.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Update Department</title>
 
-</head>
-<body>
-    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="../dashnav.css">
 
 <style>
-    .edit-page {
-    margin-left: 250px;
-    padding: 80px 30px 30px;
-    box-sizing: border-box;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.edit-page{
+    margin-left:250px;
+    min-height:100vh;
+    padding:100px 45px 45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.edit-container {
-    width: 100%;
-    max-width: 500px;
-    padding: 25px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+body.sidebar-collapsed .edit-page{margin-left:80px}
+
+.edit-container{
+    width:100%;
+    max-width:520px;
+    padding:35px;
+    background:#fff;
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
 }
 
-.edit-container h1 {
-    margin: 0 0 20px;
-    color: #333;
-    font-size: 26px;
-    font-weight: 600;
+.form-header{
+    text-align:center;
+    margin-bottom:25px;
 }
 
-.edit-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.form-icon{
+    width:60px;
+    height:60px;
+    margin:0 auto 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:#fff;
+    border-radius:14px;
+    font-size:24px;
 }
 
-.edit-form label {
-    color: #444;
-    font-size: 14px;
-    font-weight: 600;
+.form-header h1{
+    margin:0;
+    color:#183b56;
+    font-size:27px;
 }
 
-.edit-form input {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    font-size: 15px;
-    outline: none;
-    transition: 0.2s;
+.form-header p{
+    margin:7px 0 0;
+    color:#7b8794;
+    font-size:14px;
 }
 
-.edit-form input:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
-}
-.button-group{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  
+.edit-form{
+    display:grid;
+    gap:18px;
 }
 
-.update-btn {
-    width: 100%;
-    padding: 11px;
-    margin-top: 5px;
-    background-color: #0d6efd;
-    color: #fff;
-      font-family: inherit;
-    border: none;
-    border-radius: 5px;
-    font-size: 15px;
-
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.2s;
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    color:#334155;
+    font-size:14px;
+    font-weight:600;
 }
 
-.update-btn:hover {
-    background-color: #0b5ed7;
+.form-input{
+    width:100%;
+    padding:13px 15px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    font:14px inherit;
+    outline:0;
 }
 
-.cancel-btn {
-    display: block;
-    width: 100%;
-    padding: 11px;
-    margin-top: 2px;
-    background-color: #6c757d;
-    color: #fff;
-    text-align: center;
-    text-decoration: none;
-    font-size: 15px;
-    transition: 0.2s;
+.form-input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.12);
 }
 
-.cancel-btn:hover {
-    background-color: #5c636a;
-    color: #fff;
+.update-btn,
+.cancel-btn{
+    width:100%;
+    padding:13px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
 }
 
-.alert-box {
-    padding: 10px 15px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    background-color: #f8d7da;
-    color: #842029;
-    font-size: 14px;
+.update-btn{
+    border:0;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:#fff;
+    cursor:pointer;
 }
 
-/* Mobile */
-@media (max-width: 700px) {
-    .edit-page {
-        margin-left: 0;
-        padding: 70px 15px 25px;
+.update-btn:hover{
+    transform:translateY(-2px);
+}
+
+.cancel-btn{
+    display:block;
+    margin-top:-7px;
+    border:1px solid #e2e8f0;
+    color:#64748b;
+    text-decoration:none;
+}
+
+.cancel-btn:hover{
+    background:#f8fafc;
+    color:#2563eb;
+}
+
+.alert-box{
+    margin-bottom:18px;
+    padding:12px 15px;
+    border-radius:9px;
+    background:#fee2e2;
+    color:#991b1b;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+    .edit-page{
+        margin-left:0;
+        padding:80px 20px 30px;
     }
+}
 
-    .edit-container {
-        max-width: 100%;
-        padding: 20px;
-    }
-
-    .edit-container h1 {
-        font-size: 23px;
-    }
+@media(max-width:500px){
+    .edit-container{padding:28px 22px}
 }
 </style>
 
-<div class="edit-page">
+</head>
 
-    <div class="edit-container">
+<body>
+
+<main class="edit-page">
+<div class="edit-container">
+
+    <div class="form-header">
+        <div class="form-icon">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </div>
 
         <h1>Update Department</h1>
-
-        <?php if (!empty($error_msg)): ?>
-            <div class="alert-box alert-error"><?= htmlspecialchars($error_msg) ?></div>
-        <?php endif; ?>
-
-        <form action="edit.php" method="POST" class="edit-form">
-
-            <div class="form-group">
-                <label for="name">Department Name</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    class="form-control"
-                    value="<?= htmlspecialchars($name) ?>"
-                    placeholder="Enter department name"
-                    required
-                >
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="update-btn">Update Department</button>
-                <a href="index.php" class="cancel-btn">Cancel</a>
-            </div>
-
-        </form>
-
+        <p>Update academic department information</p>
     </div>
 
-</div>
+    <?php if ($error_msg): ?>
+        <div class="alert-box">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <?= htmlspecialchars($error_msg) ?>
+        </div>
+    <?php endif; ?>
 
+    <form method="POST" class="edit-form">
+
+        <input type="hidden" name="id" value="<?= $id ?>">
+
+        <div class="form-group">
+            <label for="name">Department Name</label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                class="form-input"
+                value="<?= htmlspecialchars($name) ?>"
+                placeholder="Enter department name"
+                required
+            >
+        </div>
+
+        <button class="update-btn">
+            <i class="fa-solid fa-check"></i>
+            Update Department
+        </button>
+
+        <a href="index.php" class="cancel-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+</main>
 
 </body>
 </html>
